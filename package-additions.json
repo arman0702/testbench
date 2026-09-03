@@ -1,0 +1,14 @@
+{
+  "_comment": "Это не полноценный package.json, а список пакетов, которые нужно добавить в проект, созданный через create-next-app + shadcn init. Установите их через npm install <пакет>.",
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "lucide-react": "^0.445.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.20.0",
+    "tsx": "^4.19.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

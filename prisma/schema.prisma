@@ -1,15 +1,63 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" // Supabase = Postgres
   url      = env("DATABASE_URL")
+}
+
+// Модель проекта
+model Project {
+  id       String    @id @default(uuid())
+  name     String
+  suites   Suite[]
+  testRuns TestRun[]
+}
+
+// Модель папок/сьютов
+model Suite {
+  id        String     @id @default(uuid())
+  name      String
+  projectId String
+  project   Project    @relation(fields: [projectId], references: [id])
+  cases     TestCase[]
+}
+
+// Модель тест-кейса
+model TestCase {
+  id          String      @id @default(uuid())
+  title       String
+  description String? // используется и как "описание фичи" для AI-генерации шагов
+  steps       String[] // простой массив строк для шагов
+  expected    String?
+  priority    String      @default("MEDIUM") // LOW | MEDIUM | HIGH | CRITICAL
+  automation  String      @default("MANUAL") // MANUAL | AUTOMATED
+  suiteId     String
+  suite       Suite       @relation(fields: [suiteId], references: [id])
+  results     RunResult[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+// Модель прогона тестов (Test Run)
+model TestRun {
+  id        String      @id @default(uuid())
+  name      String // Например: "Релиз v1.0"
+  projectId String
+  project   Project     @relation(fields: [projectId], references: [id])
+  results   RunResult[]
+  createdAt DateTime    @default(now())
+}
+
+// Результат конкретного теста в конкретном прогоне
+model RunResult {
+  id        String   @id @default(uuid())
+  runId     String
+  testRun   TestRun  @relation(fields: [runId], references: [id])
+  caseId    String
+  testCase  TestCase @relation(fields: [caseId], references: [id])
+  status    String // PASSED, FAILED, SKIPPED, UNTESTED
+  comment   String?
+  updatedAt DateTime @updatedAt
 }
