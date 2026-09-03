@@ -291,7 +291,7 @@ function CaseEditor({
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
           <Label className="text-zinc-400 text-xs">Приоритет</Label>
-          <Select value={priority} onValueChange={setPriority}>
+          <Select value={priority} onValueChange={(val) => val && setPriority(val)}>
             <SelectTrigger className="bg-zinc-900 border-zinc-800">
               <SelectValue />
             </SelectTrigger>
@@ -306,7 +306,7 @@ function CaseEditor({
         </div>
         <div className="space-y-1.5">
           <Label className="text-zinc-400 text-xs">Тип</Label>
-          <Select value={automation} onValueChange={setAutomation}>
+          <Select value={automation} onValueChange={(val) => val && setAutomation(val)}>
             <SelectTrigger className="bg-zinc-900 border-zinc-800">
               <SelectValue />
             </SelectTrigger>
