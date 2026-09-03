@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import { getRunWithResults } from "@/lib/runActions";
 import RunClient from "./run-client";

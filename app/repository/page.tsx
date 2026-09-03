@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getSuitesWithCases } from "@/lib/actions";
 import RepositoryClient from "./repository-client";
 

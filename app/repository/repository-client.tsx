@@ -105,11 +105,11 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
   }
 
   return (
-    <div className="flex h-screen bg-zinc-950 text-zinc-100">
+    <div className="flex h-screen bg-background text-foreground">
       {/* Sidebar */}
-      <aside className="w-64 shrink-0 border-r border-zinc-800 flex flex-col">
-        <div className="h-14 flex items-center justify-between px-4 border-b border-zinc-800">
-          <span className="text-sm font-semibold text-zinc-300">Разделы</span>
+      <aside className="w-64 shrink-0 border-r border-border flex flex-col">
+        <div className="h-14 flex items-center justify-between px-4 border-b border-border">
+          <span className="text-sm font-semibold text-foreground">Разделы</span>
           <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleAddSuite}>
             <FolderPlus className="h-4 w-4" />
           </Button>
@@ -121,14 +121,14 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
                 key={s.id}
                 onClick={() => setActiveSuiteId(s.id)}
                 className={`group flex items-center justify-between rounded-md px-3 py-2 text-sm cursor-pointer ${
-                  activeSuiteId === s.id ? "bg-zinc-800 text-white" : "text-zinc-400 hover:bg-zinc-900"
+                  activeSuiteId === s.id ? "bg-accent text-foreground" : "text-muted-foreground hover:bg-accent"
                 }`}
               >
                 <span className="truncate">{s.name}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-zinc-500">{s.cases.length}</span>
+                  <span className="text-xs text-muted-foreground">{s.cases.length}</span>
                   <button
-                    className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"
+                    className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDeleteSuite(s.id);
@@ -140,7 +140,7 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
               </div>
             ))}
             {suites.length === 0 && (
-              <p className="text-xs text-zinc-600 px-3 py-4">Разделов пока нет. Добавьте первый.</p>
+              <p className="text-xs text-muted-foreground px-3 py-4">Разделов пока нет. Добавьте первый.</p>
             )}
           </div>
         </ScrollArea>
@@ -148,8 +148,8 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
 
       {/* Main table */}
       <main className="flex-1 flex flex-col min-w-0">
-        <div className="h-14 flex items-center justify-between px-6 border-b border-zinc-800">
-          <h1 className="text-sm font-medium text-zinc-300">
+        <div className="h-14 flex items-center justify-between px-6 border-b border-border">
+          <h1 className="text-sm font-medium text-foreground">
             {activeSuite ? activeSuite.name : "Выберите раздел"}
           </h1>
           <Button size="sm" disabled={!activeSuiteId} onClick={handleAddCase}>
@@ -161,11 +161,11 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
           {activeSuite && activeSuite.cases.length > 0 ? (
             <Table>
               <TableHeader>
-                <TableRow className="border-zinc-800 hover:bg-transparent">
-                  <TableHead className="text-zinc-500">ID</TableHead>
-                  <TableHead className="text-zinc-500">Название</TableHead>
-                  <TableHead className="text-zinc-500 w-28">Тип</TableHead>
-                  <TableHead className="text-zinc-500 w-32">Приоритет</TableHead>
+                <TableRow className="border-border hover:bg-transparent">
+                  <TableHead className="text-muted-foreground">ID</TableHead>
+                  <TableHead className="text-muted-foreground">Название</TableHead>
+                  <TableHead className="text-muted-foreground w-28">Тип</TableHead>
+                  <TableHead className="text-muted-foreground w-32">Приоритет</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -173,18 +173,18 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
                   <TableRow
                     key={c.id}
                     onClick={() => openCase(c)}
-                    className="border-zinc-800 cursor-pointer hover:bg-zinc-900"
+                    className="border-border cursor-pointer hover:bg-accent"
                   >
-                    <TableCell className="font-mono text-xs text-zinc-500">
+                    <TableCell className="font-mono text-xs text-muted-foreground">
                       {c.id.slice(0, 8)}
                     </TableCell>
-                    <TableCell className="text-zinc-200">{c.title}</TableCell>
+                    <TableCell className="text-foreground">{c.title}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="text-zinc-400 border-zinc-700">
+                      <Badge variant="outline" className="text-muted-foreground border-border">
                         {AUTOMATION_LABEL[c.automation]}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-zinc-400 text-sm">
+                    <TableCell className="text-muted-foreground text-sm">
                       {PRIORITY_LABEL[c.priority]}
                     </TableCell>
                   </TableRow>
@@ -192,7 +192,7 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
               </TableBody>
             </Table>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full text-zinc-600 text-sm gap-2">
+            <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-sm gap-2">
               <p>{activeSuite ? "В этом разделе пока нет тест-кейсов" : "Выберите раздел слева"}</p>
             </div>
           )}
@@ -201,7 +201,7 @@ export default function RepositoryClient({ initialSuites }: { initialSuites: Sui
 
       {/* Edit sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent className="bg-zinc-950 border-zinc-800 text-zinc-100 w-[520px] sm:max-w-[520px] overflow-y-auto">
+        <SheetContent className="bg-background border-border text-foreground w-[520px] sm:max-w-[520px] overflow-y-auto">
           {selectedCase && (
             <CaseEditor
               testCase={selectedCase}
@@ -279,7 +279,7 @@ function CaseEditor({
   return (
     <div className="flex flex-col gap-5 pt-2">
       <SheetHeader>
-        <SheetTitle className="text-zinc-100">
+        <SheetTitle className="text-foreground">
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -290,12 +290,12 @@ function CaseEditor({
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <Label className="text-zinc-400 text-xs">Приоритет</Label>
+          <Label className="text-muted-foreground text-xs">Приоритет</Label>
           <Select value={priority} onValueChange={(val) => val && setPriority(val)}>
-            <SelectTrigger className="bg-zinc-900 border-zinc-800">
+            <SelectTrigger className="bg-card border-border">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-zinc-800">
+            <SelectContent className="bg-card border-border">
               {PRIORITIES.map((p) => (
                 <SelectItem key={p} value={p}>
                   {PRIORITY_LABEL[p]}
@@ -305,12 +305,12 @@ function CaseEditor({
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label className="text-zinc-400 text-xs">Тип</Label>
+          <Label className="text-muted-foreground text-xs">Тип</Label>
           <Select value={automation} onValueChange={(val) => val && setAutomation(val)}>
-            <SelectTrigger className="bg-zinc-900 border-zinc-800">
+            <SelectTrigger className="bg-card border-border">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-zinc-800">
+            <SelectContent className="bg-card border-border">
               {AUTOMATION.map((a) => (
                 <SelectItem key={a} value={a}>
                   {AUTOMATION_LABEL[a]}
@@ -323,7 +323,7 @@ function CaseEditor({
 
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <Label className="text-zinc-400 text-xs">Описание фичи</Label>
+          <Label className="text-muted-foreground text-xs">Описание фичи</Label>
           <Button
             size="sm"
             variant="secondary"
@@ -339,15 +339,15 @@ function CaseEditor({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Опишите фичу своими словами — AI предложит шаги теста"
-          className="bg-zinc-900 border-zinc-800 min-h-[70px]"
+          className="bg-card border-border min-h-[70px]"
         />
       </div>
 
       <div className="space-y-2">
-        <Label className="text-zinc-400 text-xs">Шаги</Label>
+        <Label className="text-muted-foreground text-xs">Шаги</Label>
         {steps.map((step, i) => (
           <div key={i} className="flex items-start gap-2">
-            <span className="text-xs font-mono text-zinc-600 pt-2 w-5">{i + 1}.</span>
+            <span className="text-xs font-mono text-muted-foreground pt-2 w-5">{i + 1}.</span>
             <Textarea
               value={step}
               onChange={(e) => {
@@ -355,31 +355,31 @@ function CaseEditor({
                 next[i] = e.target.value;
                 setSteps(next);
               }}
-              className="bg-zinc-900 border-zinc-800 min-h-[40px]"
+              className="bg-card border-border min-h-[40px]"
             />
             <button
-              className="text-zinc-600 hover:text-red-400 pt-2"
+              className="text-muted-foreground hover:text-destructive pt-2"
               onClick={() => setSteps(steps.filter((_, idx) => idx !== i))}
             >
               <X className="h-4 w-4" />
             </button>
           </div>
         ))}
-        <Button size="sm" variant="outline" className="border-zinc-800" onClick={() => setSteps([...steps, ""])}>
+        <Button size="sm" variant="outline" className="border-border" onClick={() => setSteps([...steps, ""])}>
           <Plus className="h-3.5 w-3.5 mr-1" /> Добавить шаг
         </Button>
       </div>
 
       <div className="space-y-1.5">
-        <Label className="text-zinc-400 text-xs">Ожидаемый результат</Label>
+        <Label className="text-muted-foreground text-xs">Ожидаемый результат</Label>
         <Textarea
           value={expected}
           onChange={(e) => setExpected(e.target.value)}
-          className="bg-zinc-900 border-zinc-800 min-h-[60px]"
+          className="bg-card border-border min-h-[60px]"
         />
       </div>
 
-      <div className="flex gap-2 pt-2 border-t border-zinc-800 mt-2">
+      <div className="flex gap-2 pt-2 border-t border-border mt-2">
         <Button onClick={handleSave} disabled={saving} className="flex-1">
           {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
           Сохранить
